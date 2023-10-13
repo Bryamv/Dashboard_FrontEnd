@@ -9,21 +9,48 @@ function CreateForm() {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm();
+    getValues,
+    setError,
+    clearErrors,
+  } = useForm({ mode: "onChange" });
 
   const onSubmit = (data) => {
     console.log(data);
+    console.log(errors);
   };
 
   //controlar la imagen que se sube
   const handleImageChange = (e) => {
-    console.log("se escogio imagen");
     if (e.target.files && e.target.files[0]) {
       let img = e.target.files[0];
+
+      // Validar el tamaño del archivo (no debe superar los 2 MB)
+      if (img.size > 2 * 1024 * 1024) {
+        setError("photo", {
+          type: "manual",
+          message: "El archivo no debe superar los 2 MB",
+        });
+        e.target.value = null;
+        return;
+      }
+
+      // Validar que el archivo sea de tipo imagen
+      if (!img.type.startsWith("image/")) {
+        setError("photo", {
+          type: "manual",
+          message: "El archivo debe ser una imagen",
+        });
+        e.target.value = null;
+        return;
+      }
+
+      // Si no hay errores, limpia los errores anteriores y procesa el archivo
+      clearErrors("photo");
       setImage(URL.createObjectURL(img));
-      setValue("photo", e.target.files[0]);
+      setValue("photo", img);
     }
   };
+
   //fin de controlar la imagen que se sube
   useEffect(() => {
     register("photo");
@@ -35,28 +62,17 @@ function CreateForm() {
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group controlId="formDocumentType">
               <Form.Label>Tipo de documento</Form.Label>
-              <Form.Control
-                as="select"
-                {...register("documentType", {
-                  required: "Este campo es obligatorio",
-                })}
-                isInvalid={!!errors.documentType}
-              >
+              <Form.Control as="select" {...register("documentType")}>
                 <option>Tarjeta de identidad</option>
                 <option>Cédula</option>
               </Form.Control>
-              {errors.document && (
-                <Form.Control.Feedback type="invalid">
-                  {errors.document.message}
-                </Form.Control.Feedback>
-              )}
             </Form.Group>
 
             <Form.Group controlId="formDocumentNumber">
               <Form.Label>Nro. Documento</Form.Label>
               <Form.Control
                 type="text"
-                isValid={!errors.document}
+                isValid={!errors.document && /\d/.test(getValues("document"))}
                 isInvalid={!!errors.document}
                 {...register("document", {
                   required: "Este campo es obligatorio",
@@ -76,26 +92,94 @@ function CreateForm() {
               <Col>
                 <Form.Group controlId="formFirstName">
                   <Form.Label>Primer Nombre</Form.Label>
-                  <Form.Control type="text" {...register("firstName")} />
+                  <Form.Control
+                    type="text"
+                    isInvalid={!!errors.firstName}
+                    {...register("firstName", {
+                      required: "Este campo es obligatorio",
+                      maxLength: {
+                        value: 30,
+                        message: "No debe ser mayor de 30 caracteres",
+                      },
+                      pattern: {
+                        value: /^[A-Za-z]+$/,
+                        message: "No debe ser un número",
+                      },
+                    })}
+                  />
+                  {errors.firstName && (
+                    <Form.Control.Feedback type="invalid">
+                      {errors.firstName.message}
+                    </Form.Control.Feedback>
+                  )}
                 </Form.Group>
               </Col>
 
               <Col>
                 <Form.Group controlId="formSecondName">
                   <Form.Label>Segundo Nombre</Form.Label>
-                  <Form.Control type="text" {...register("secondName")} />
+                  <Form.Control
+                    type="text"
+                    isInvalid={!!errors.secondName}
+                    {...register("secondName", {
+                      required: "Este campo es obligatorio",
+                      maxLength: {
+                        value: 30,
+                        message: "No debe ser mayor de 30 caracteres",
+                      },
+                      pattern: {
+                        value: /^[A-Za-z]+$/,
+                        message: "No debe ser un número",
+                      },
+                    })}
+                  />
+                  {errors.secondName && (
+                    <Form.Control.Feedback type="invalid">
+                      {errors.secondName.message}
+                    </Form.Control.Feedback>
+                  )}
                 </Form.Group>
               </Col>
             </Row>
 
             <Form.Group controlId="formLastName">
               <Form.Label>Apellidos</Form.Label>
-              <Form.Control type="text" {...register("lastName")} />
+              <Form.Control
+                type="text"
+                isInvalid={!!errors.lastName}
+                {...register("lastName", {
+                  required: "Este campo es obligatorio",
+                  maxLength: {
+                    value: 60,
+                    message: "No debe ser mayor de 60 caracteres",
+                  },
+                  pattern: {
+                    value: /^[A-Za-z]+$/,
+                    message: "No debe ser un número",
+                  },
+                })}
+              />
+              {errors.lastName && (
+                <Form.Control.Feedback type="invalid">
+                  {errors.lastName.message}
+                </Form.Control.Feedback>
+              )}
             </Form.Group>
 
             <Form.Group controlId="formBirthDate">
               <Form.Label>Fecha de Nacimiento</Form.Label>
-              <Form.Control type="date" {...register("birthDate")} />
+              <Form.Control
+                type="date"
+                isInvalid={!!errors.birthDate}
+                {...register("birthDate", {
+                  required: "Este campo es obligatorio",
+                })}
+              />
+              {errors.birthDate && (
+                <Form.Control.Feedback type="invalid">
+                  {errors.birthDate.message}
+                </Form.Control.Feedback>
+              )}
             </Form.Group>
 
             <Form.Group controlId="formGender">
@@ -110,12 +194,43 @@ function CreateForm() {
 
             <Form.Group controlId="formEmail">
               <Form.Label>Correo electrónico</Form.Label>
-              <Form.Control type="email" {...register("email")} />
+              <Form.Control
+                type="email"
+                isInvalid={!!errors.email}
+                {...register("email", {
+                  required: "Este campo es obligatorio",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: "Formato de correo electrónico inválido",
+                  },
+                })}
+              />
+              {errors.email && (
+                <Form.Control.Feedback type="invalid">
+                  {errors.email.message}
+                </Form.Control.Feedback>
+              )}
             </Form.Group>
 
             <Form.Group controlId="formPhone">
               <Form.Label>Celular</Form.Label>
-              <Form.Control type="tel" {...register("phone")} />
+              <Form.Control
+                type="tel"
+                isInvalid={!!errors.phone}
+                {...register("phone", {
+                  required: "Este campo es obligatorio",
+                  pattern: {
+                    value: /^[0-9]{10}$/,
+                    message:
+                      "Debe ser un número y tener exactamente 10 caracteres",
+                  },
+                })}
+              />
+              {errors.phone && (
+                <Form.Control.Feedback type="invalid">
+                  {errors.phone.message}
+                </Form.Control.Feedback>
+              )}
             </Form.Group>
             <Form.Group controlId="formPhoto">
               <Form.Label>Foto</Form.Label>
@@ -123,9 +238,14 @@ function CreateForm() {
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
-
-                //verificar esto con el chatl
+                isInvalid={!!errors.photo}
+                required
               />
+              {errors.photo && (
+                <Form.Control.Feedback type="invalid">
+                  {errors.photo.message}
+                </Form.Control.Feedback>
+              )}
             </Form.Group>
 
             {/* Aquí va el botón de envío */}
