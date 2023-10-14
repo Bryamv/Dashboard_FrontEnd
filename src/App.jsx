@@ -4,8 +4,8 @@ import Root from "./pages/Root";
 import ErrorPage from "./pages/ErrorPage";
 import HomePage from "./pages/HomePage";
 import CreatePage from "./pages/CreatePage";
-import DeletePage from "./pages/DeletePage";
 import LogPage from "./pages/LogPage";
+import ConsultPage from "./pages/ConsultPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -15,34 +15,30 @@ const router = createBrowserRouter([
       {
         //path: "/", another way to write it
         index: true,
-        element: <HomePage/>,
+        element: <HomePage />,
       },
       {
-        path: "/create",
-        element: <CreatePage/>,
+        path: "/register",
+        element: <CreatePage />,
       },
       {
-        path: "/delete",
-        element: <DeletePage/>,
+        path: "/consult",
+        element: <ConsultPage />,
       },
       {
         path: "/log",
-        element: <LogPage/>,
+        element: <LogPage />,
       },
     ],
   },
 ]);
 
 function App() {
-  
-
   return (
     <>
-    
-    <RouterProvider router={router} />
-
+      <RouterProvider router={router} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

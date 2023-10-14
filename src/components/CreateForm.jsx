@@ -1,6 +1,7 @@
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 import "./style.css";
 function CreateForm() {
   const [image, setImage] = useState(null);
@@ -11,11 +12,21 @@ function CreateForm() {
     formState: { errors },
     setError,
     clearErrors,
+    reset,
   } = useForm({ mode: "onChange" });
 
   const onSubmit = (data) => {
     console.log(data);
-    console.log(errors);
+    let size = Object.keys(data).length;
+    console.log(`tamaño: ${size}`);
+    Swal.fire({
+      title: "Datos enviados!",
+      text: "Tus datos han sido enviados exitosamente",
+      icon: "success",
+      confirmButtonText: "Ok",
+    });
+    setImage(null);
+    reset();
   };
 
   //controlar la imagen que se sube
@@ -45,7 +56,6 @@ function CreateForm() {
         return;
       }
 
-      // Si no hay errores, limpia los errores anteriores y procesa el archivo
       clearErrors("photo");
       setImage(URL.createObjectURL(img));
       setValue("photo", img);
