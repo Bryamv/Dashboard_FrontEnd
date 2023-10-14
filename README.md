@@ -28,6 +28,4 @@ Asegúrate de tener instalados los siguientes requisitos en tu sistema:
    npm run build
    ```
 
-```
    Los archivos compilados se generarán en la carpeta `dist`.
-```
