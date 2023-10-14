@@ -5,7 +5,7 @@ const CreatePage = () => {
     <>
       <div className="container mt-5">
         <div className="row">
-          <div className="col-6">
+          <div className="col-10 mx-auto">
             <CreateForm />
           </div>
         </div>

@@ -31,6 +31,7 @@ function CreateForm() {
           message: "El archivo no debe superar los 2 MB",
         });
         e.target.value = null;
+        setImage(null);
         return;
       }
 
@@ -41,6 +42,7 @@ function CreateForm() {
           message: "El archivo debe ser una imagen",
         });
         e.target.value = null;
+        setImage(null);
         return;
       }
 
@@ -56,8 +58,9 @@ function CreateForm() {
     register("photo");
   }, [register]);
   return (
-    <Container>
-      <Row className="justify-content-between">
+    <Container className="">
+      <h1>Crear Persona</h1>
+      <Row className="justify-content-between form">
         <Col md={8}>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group controlId="formDocumentType">
@@ -261,18 +264,26 @@ function CreateForm() {
             md={4}
             className="d-flex justify-content-center align-items-center"
           >
-            {/* Se han añadido estilos para que la previsualización de la imagen tenga bordes redondeados y una sombra */}
-            <img
-              src={image}
-              alt="preview"
-              style={{
-                width: "100%",
-                height: "auto",
-                borderRadius: "5px",
-                boxShadow: "0 0 10px rgba(0,0,0,0.5)",
-                objectFit: "cover",
-              }}
-            />
+            {
+              <div className="text-center">
+                <img
+                  src={image}
+                  alt="Preview"
+                  className="img-fluid"
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    borderRadius: "5px",
+                    boxShadow: "0 0 10px rgba(0,0,0,0.5)",
+                    objectFit: "cover",
+                  }}
+                />
+                <p className="mt-2 preview-text">
+                  Previsualización de la imagen
+                </p>
+              </div>
+              /* Se han añadido estilos para que la previsualización de la imagen tenga bordes redondeados y una sombra */
+            }
           </Col>
         )}
       </Row>
