@@ -18,8 +18,16 @@ Asegúrate de tener instalados los siguientes requisitos en tu sistema:
 
 # Uso
 
-1. npm run dev
+1. ```bash
+   npm run dev
+   ```
+
    Esto abrirá la aplicación en tu navegador y proporcionará capacidades de recarga en caliente para una experiencia de desarrollo fluida.
 
-2. npm run build
+2. ```bash
+   npm run build
+   ```
+
+```
    Los archivos compilados se generarán en la carpeta `dist`.
+```
