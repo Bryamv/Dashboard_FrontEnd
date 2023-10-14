@@ -9,7 +9,6 @@ function CreateForm() {
     handleSubmit,
     setValue,
     formState: { errors },
-    getValues,
     setError,
     clearErrors,
   } = useForm({ mode: "onChange" });
@@ -58,8 +57,10 @@ function CreateForm() {
     register("photo");
   }, [register]);
   return (
-    <Container className="">
-      <h1>Crear Persona</h1>
+    <Container>
+      <div className="text-center">
+        <h1>Registrar Persona</h1>
+      </div>
       <Row className="justify-content-between form">
         <Col md={8}>
           <Form onSubmit={handleSubmit(onSubmit)}>
@@ -75,7 +76,6 @@ function CreateForm() {
               <Form.Label>Nro. Documento</Form.Label>
               <Form.Control
                 type="text"
-                isValid={!errors.document && /\d/.test(getValues("document"))}
                 isInvalid={!!errors.document}
                 {...register("document", {
                   required: "Este campo es obligatorio",
@@ -157,7 +157,7 @@ function CreateForm() {
                     message: "No debe ser mayor de 60 caracteres",
                   },
                   pattern: {
-                    value: /^[A-Za-z]+$/,
+                    value: /^[A-Za-z\s]+$/,
                     message: "No debe ser un número",
                   },
                 })}
@@ -252,8 +252,8 @@ function CreateForm() {
             </Form.Group>
 
             {/* Aquí va el botón de envío */}
-            <Button variant="primary" type="submit">
-              Enviar
+            <Button variant="primary" type="submit" className="mt-3 w-100">
+              Registrar
             </Button>
           </Form>
         </Col>
