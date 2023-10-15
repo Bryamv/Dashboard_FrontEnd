@@ -1,15 +1,15 @@
 import CreateForm from "../components/CreateForm";
-
+import { Container, Row, Col } from "react-bootstrap";
 const CreatePage = () => {
   return (
     <>
-      <div className="container mt-5">
-        <div className="row">
-          <div className="col-12  mx-auto">
+      <Container className="mt-5 ">
+        <Row>
+          <Col className="col-12 mx-auto">
             <CreateForm />
-          </div>
-        </div>
-      </div>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };
