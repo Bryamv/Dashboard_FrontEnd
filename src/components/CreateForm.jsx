@@ -2,6 +2,7 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import axios from "axios";
 import "./style.css";
 function CreateForm() {
   const [image, setImage] = useState(null);
@@ -15,18 +16,44 @@ function CreateForm() {
     reset,
   } = useForm({ mode: "onChange" });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    let size = Object.keys(data).length;
-    console.log(`tamaño: ${size}`);
-    Swal.fire({
-      title: "Datos enviados!",
-      text: "Tus datos han sido enviados exitosamente",
-      icon: "success",
-      confirmButtonText: "Ok",
-    });
-    setImage(null);
-    reset();
+  const onSubmit = async (data) => {
+    // Crear instancia de FormData
+    const formData = new FormData();
+
+    // Agregar los datos al formData
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+
+    // Hacer la petición POST
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/createpeople",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(response.data.res);
+      Swal.fire({
+        title: "Datos enviados!",
+        text: response.data.res,
+        icon: "success",
+        confirmButtonText: "Ok",
+      });
+      setImage(null);
+      reset();
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        title: "Error!",
+        text: error.response.data.res,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+    }
   };
 
   //controlar la imagen que se sube
