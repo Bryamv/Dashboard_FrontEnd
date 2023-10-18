@@ -1,8 +1,10 @@
 import Table from "react-bootstrap/Table";
-import { Button, Row, Col } from "react-bootstrap";
-import { FaTrash, FaEdit } from "react-icons/fa";
+import { Button } from "react-bootstrap";
+import PropTypes from "prop-types";
+
+//import { FaTrash, FaEdit } from "react-icons/fa"; eliminar si es necesario
 import "./table.css";
-const PersonTable = () => {
+const PersonTable = ({ data }) => {
   return (
     <Table striped>
       <thead>
@@ -21,61 +23,54 @@ const PersonTable = () => {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>CC</td>
-          <td>123456789</td>
-          <td>John</td>
-          <td>Doe</td>
-          <td>Smith</td>
-          <td>01/01/1990</td>
-          <td>Masculino</td>
-          <td>john.smith@example.com</td>
-          <td>1234567890</td>
-          <td>foto.jpg</td>
-          <td style={{ width: "500px" }}>
-            <Row>
-              <Col md={6} className="w-100">
-                <Button variant="info">
-                  <FaEdit style={{ color: "white", fontSize: "20px" }} />
-                </Button>
-              </Col>
-              <Col md={6} className="w-100">
-                <Button variant="danger">
-                  <FaTrash style={{ color: "white", fontSize: "20px" }} />
-                </Button>
-              </Col>
-            </Row>
-          </td>
-        </tr>
-        <tr>
-          <td>TI</td>
-          <td>987654321</td>
-          <td>Jane</td>
-          <td>Marie</td>
-          <td>Johnson</td>
-          <td>05/12/1985</td>
-          <td>Femenino</td>
-          <td>jane.johnson@example.com</td>
-          <td>0987654321</td>
-          <td>foto2.jpg</td>
-          <td>
-            <Row>
-              <Col md={6}>
-                <Button variant="info">
-                  <FaEdit style={{ color: "white", fontSize: "20px" }} />
-                </Button>
-              </Col>
-              <Col md={6}>
-                <Button variant="danger">
-                  <FaTrash style={{ color: "white", fontSize: "20px" }} />
-                </Button>
-              </Col>
-            </Row>
-          </td>
-        </tr>
+        {data.map((person) => (
+          <tr key={person.numero_documento}>
+            <td>{person.tipo_documento_id}</td>
+            <td>{person.numero_documento}</td>
+            <td>{person.primer_nombre}</td>
+            <td>{person.segundo_nombre}</td>
+            <td>{person.apellidos}</td>
+            <td>{person.fecha_nacimiento}</td>
+            <td>{person.genero_id}</td>
+            <td>{person.correo_electronico}</td>
+            <td>{person.celular}</td>
+            <td>{person.foto.name}</td>
+            <td style={{ width: "500px" }}>
+              <Button
+                variant="info"
+                style={{ color: "white" }}
+                className="me-5"
+              >
+                Editar
+              </Button>
+              <Button variant="danger">Eliminar</Button>
+            </td>
+          </tr>
+        ))}
+        {/* <tr>
+            <td>CC</td>
+            <td>123456789</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>Smith</td>
+            <td>01/01/1990</td>
+            <td>Masculino</td>
+            <td>john.smith@example.com</td>
+            <td>1234567890</td>
+            <td>foto.jpg</td>
+            <td style={{ width: "500px" }}>
+              <Button variant="info" style={{ color: "white" }} className="me-5">
+                Editar
+              </Button>
+              <Button variant="danger">Eliminar</Button>
+            </td>
+          </tr> */}
       </tbody>
     </Table>
   );
 };
 
+PersonTable.propTypes = {
+  data: PropTypes.array.isRequired,
+};
 export default PersonTable;
