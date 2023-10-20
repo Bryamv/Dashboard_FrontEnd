@@ -9,18 +9,24 @@ import getPeople from "../api/getPeople.js";
 const ConsultPage = () => {
   const [people, setPeople] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const elementosPorPagina = 5;
 
   useEffect(() => {
     const fetchPeople = async () => {
-      const response = await getPeople();
-      setPeople(response);
+      try {
+        const response = await getPeople();
+        setPeople(response);
+      } catch (error) {
+        setError(error);
+      }
+      setLoading(false);
     };
-
     fetchPeople();
   }, []);
 
-  if (!people) {
+  if (isLoading) {
     return (
       <div
         style={{
@@ -36,6 +42,23 @@ const ConsultPage = () => {
       </div>
     );
   }
+  if (error) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          fontSize: "2em",
+          color: "red",
+        }}
+      >
+        <strong>Hubo un error al cargar los datos.</strong>
+      </div>
+    );
+  }
+
   // Calcular los elementos que se deben mostrar en la página actual
   const indexOfLastElement = currentPage * elementosPorPagina;
   const indexOfFirstElement = indexOfLastElement - elementosPorPagina;

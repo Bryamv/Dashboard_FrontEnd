@@ -1,4 +1,4 @@
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Form, Button, Container, Row, Col, Spinner } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
@@ -6,6 +6,7 @@ import axios from "axios";
 import "./style.css";
 function CreateForm() {
   const [image, setImage] = useState(null);
+  const [isLoading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -17,6 +18,7 @@ function CreateForm() {
   } = useForm({ mode: "onChange" });
 
   const onSubmit = async (data) => {
+    setLoading(true);
     console.log(data);
     // Crear instancia de FormData
     const formData = new FormData();
@@ -47,14 +49,25 @@ function CreateForm() {
       setImage(null);
       reset();
     } catch (error) {
+      if (error.response) {
+        //respuesta de error desde el servidor
+        Swal.fire({
+          title: "Error!",
+          text: error.response.data.res,
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+      } else if (error.request) {
+        Swal.fire({
+          title: "Error!",
+          text: "Servicio no disponible",
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+      }
       console.error(error);
-      Swal.fire({
-        title: "Error!",
-        text: error.response.data.res,
-        icon: "error",
-        confirmButtonText: "Ok",
-      });
     }
+    setLoading(false);
   };
 
   //controlar la imagen que se sube
@@ -291,7 +304,11 @@ function CreateForm() {
 
             {/* Aquí va el botón de envío */}
             <Button variant="primary" type="submit" className="mt-3 w-100">
-              Registrar
+              {isLoading ? (
+                <Spinner animation="border" size="sm" />
+              ) : (
+                "Registrar"
+              )}
             </Button>
           </Form>
         </Col>
