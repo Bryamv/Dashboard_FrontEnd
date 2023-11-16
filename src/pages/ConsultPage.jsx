@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import PersonTable from "../components/PersonTable";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { Spinner, Pagination } from "react-bootstrap";
 
 import getPeople from "../api/getPeople.js";
@@ -13,16 +13,30 @@ const ConsultPage = () => {
   const [error, setError] = useState(null);
   const elementosPorPagina = 5;
 
+  //codigo para filtrar los datos por documento
+  const [filter, setFilter] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+
   useEffect(() => {
-    const fetchPeople = async () => {
-      try {
-        const response = await getPeople();
-        setPeople(response);
-      } catch (error) {
-        setError(error);
-      }
-      setLoading(false);
-    };
+    if (people) {
+      setFilteredData(
+        people.filter((person) => person.numero_documento.includes(filter))
+      );
+    }
+  }, [filter, people]);
+
+  //fin de codigo para filtrar los datos por documento
+  const fetchPeople = async () => {
+    setLoading(true);
+    try {
+      const response = await getPeople();
+      setPeople(response);
+    } catch (error) {
+      setError(error);
+    }
+    setLoading(false);
+  };
+  useEffect(() => {
     fetchPeople();
   }, []);
 
@@ -54,7 +68,28 @@ const ConsultPage = () => {
           color: "red",
         }}
       >
-        <strong>Hubo un error al cargar los datos.</strong>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+            fontSize: "2em",
+            color: "red",
+          }}
+        >
+          <strong>Hubo un error al cargar los datos.</strong>
+
+          <Button
+            variant="info"
+            type="button"
+            className="mt-3"
+            onClick={fetchPeople}
+          >
+            Reintentar
+          </Button>
+        </div>
       </div>
     );
   }
@@ -97,6 +132,11 @@ const ConsultPage = () => {
       </Row>
       <Row>
         <Col className="col-12 mx-auto">
+          <input
+            type="text"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+          />
           <PersonTable data={currentElements} />
           <Pagination>
             <Pagination.First
