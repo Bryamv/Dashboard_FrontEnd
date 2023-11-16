@@ -117,7 +117,7 @@ function CreateForm() {
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group controlId="formDocumentType">
               <Form.Label>Tipo de documento</Form.Label>
-              <Form.Control as="select" {...register("tipo_documento_id")}>
+              <Form.Control as="select" {...register("tipo_documento")}>
                 <option>Tarjeta de identidad</option>
                 <option>Cédula</option>
               </Form.Control>

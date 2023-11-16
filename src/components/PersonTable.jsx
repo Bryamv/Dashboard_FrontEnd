@@ -53,7 +53,16 @@ const PersonTable = ({ data }) => {
             <td>{person.genero_id}</td>
             <td>{person.correo_electronico}</td>
             <td>{person.celular}</td>
-            <td>{person.foto.name}</td>
+            <td style={{ maxWidth: "100px" }}>
+              {person.foto && (
+                <img
+                  //src={URL.createObjectURL(person.foto)}
+                  src={`./images/pier.jpg`}
+                  alt={person.foto.name}
+                  style={{ maxWidth: "100%", height: "auto" }}
+                />
+              )}
+            </td>
             <td style={{ width: "500px" }}>
               <Button
                 variant="info"
