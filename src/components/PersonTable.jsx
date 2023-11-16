@@ -1,10 +1,29 @@
 import Table from "react-bootstrap/Table";
 import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
+import Swal from "sweetalert2";
 
 //import { FaTrash, FaEdit } from "react-icons/fa"; eliminar si es necesario
 import "./table.css";
 const PersonTable = ({ data }) => {
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "¿Estás seguro de que quieres eliminar este registro?",
+      text: "Esta acción no se puede deshacer",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Aquí  se hará el llamado a la api de eliminar
+        console.log("Eliminando registro con id: ", id);
+        Swal.fire("Eliminado!", "El registro ha sido eliminado.", "success");
+      }
+    });
+  };
   return (
     <Table striped>
       <thead>
@@ -43,7 +62,12 @@ const PersonTable = ({ data }) => {
               >
                 Editar
               </Button>
-              <Button variant="danger">Eliminar</Button>
+              <Button
+                variant="danger"
+                onClick={() => handleDelete(person.numero_documento)}
+              >
+                Eliminar
+              </Button>
             </td>
           </tr>
         ))}
