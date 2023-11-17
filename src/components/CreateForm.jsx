@@ -20,15 +20,12 @@ function CreateForm() {
   const onSubmit = async (data) => {
     setLoading(true);
     console.log(data);
-    // Crear instancia de FormData
     const formData = new FormData();
 
-    // Agregar los datos al formData
     for (const key in data) {
       formData.append(key, data[key]);
     }
 
-    // Hacer la petición POST
     try {
       const response = await axios.post(
         "http://localhost:3000/api/createpeople",
@@ -39,30 +36,28 @@ function CreateForm() {
           },
         }
       );
-      console.log(response.data.res);
       Swal.fire({
-        title: "Datos enviados!",
-        text: response.data.res,
+        title: "Usuario creado exitosamente",
+        text: `El usuario ${response.data.res} ha sido creado exitosamente.`,
         icon: "success",
-        confirmButtonText: "Ok",
+        confirmButtonText: "Aceptar",
       });
       setImage(null);
       reset();
     } catch (error) {
       if (error.response) {
-        //respuesta de error desde el servidor
         Swal.fire({
-          title: "Error!",
-          text: error.response.data.res,
+          title: "Error al crear el usuario",
+          text: `Hubo un error al crear el usuario: ${data.numero_documento}`,
           icon: "error",
-          confirmButtonText: "Ok",
+          confirmButtonText: "Aceptar",
         });
       } else if (error.request) {
         Swal.fire({
-          title: "Error!",
-          text: "Servicio no disponible",
+          title: "Error de conexión",
+          text: "No se pudo establecer una conexión con el servidor. Por favor, inténtelo de nuevo más tarde.",
           icon: "error",
-          confirmButtonText: "Ok",
+          confirmButtonText: "Aceptar",
         });
       }
       console.error(error);

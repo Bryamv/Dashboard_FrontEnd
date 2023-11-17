@@ -22,8 +22,9 @@ const ConsultPage = () => {
     setLoading(true);
     try {
       const response = await getPeople();
-      console.log(typeof response);
-      setPeople(response.usuarios);
+      setPeople(response);
+      //production
+      //setPeople(response.usuarios);
     } catch (error) {
       setError(error);
     }
@@ -166,14 +167,15 @@ const ConsultPage = () => {
             />
             {pageNumbers}
             <Pagination.Next
-              onClick={() =>
+              onClick={() => {
+                console.log(filteredPeople.length);
                 setCurrentPage(
                   currentPage <
                     Math.ceil(filteredPeople.length / elementosPorPagina)
                     ? currentPage + 1
                     : currentPage
-                )
-              }
+                );
+              }}
               disabled={
                 currentPage ===
                 Math.ceil(filteredPeople.length / elementosPorPagina)

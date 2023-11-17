@@ -2,7 +2,7 @@
   "people": [
     {
       "numero_documento": "123456789",
-      "tipo_documento_id": "Cedula",
+      "tipo_documento": "Cedula",
       "primer_nombre": "Juan",
       "segundo_nombre": "Carlos",
       "apellidos": "Perez Angulo",
@@ -22,7 +22,7 @@
     },
     {
       "numero_documento": "987654321",
-      "tipo_documento_id": "Tarjeta de Identidad",
+      "tipo_documento": "Tarjeta de Identidad",
       "primer_nombre": "Maria",
       "segundo_nombre": "Isabel",
       "apellidos": "Gomez Perez",
@@ -42,7 +42,7 @@
     },
     {
       "numero_documento": "555555555",
-      "tipo_documento_id": "Cedula",
+      "tipo_documento": "Cedula",
       "primer_nombre": "Carlos",
       "segundo_nombre": "Andres",
       "apellidos": "Lopez Sanchez",
@@ -62,7 +62,7 @@
     },
     {
       "numero_documento": "333333333",
-      "tipo_documento_id": "Cedula",
+      "tipo_documento": "Cedula",
       "primer_nombre": "Ana",
       "segundo_nombre": "Maria",
       "apellidos": "Rodriguez Diaz",
@@ -82,7 +82,7 @@
     },
     {
       "numero_documento": "999999999",
-      "tipo_documento_id": "Tarjeta de Identidad",
+      "tipo_documento": "Tarjeta de Identidad",
       "primer_nombre": "Javier",
       "segundo_nombre": "Andres",
       "apellidos": "Gutierrez Soto",
@@ -102,7 +102,7 @@
     },
     {
       "numero_documento": "777777777",
-      "tipo_documento_id": "Cedula",
+      "tipo_documento": "Cedula",
       "primer_nombre": "Luis",
       "segundo_nombre": "Miguel",
       "apellidos": "Hernandez Castro",
@@ -122,7 +122,7 @@
     },
     {
       "numero_documento": "444444444",
-      "tipo_documento_id": "Tarjeta de Identidad",
+      "tipo_documento": "Tarjeta de Identidad",
       "primer_nombre": "Maria",
       "segundo_nombre": "Luisa",
       "apellidos": "Fernandez Rodriguez",
@@ -142,7 +142,7 @@
     },
     {
       "numero_documento": "222222222",
-      "tipo_documento_id": "Cedula",
+      "tipo_documento": "Cedula",
       "primer_nombre": "Pedro",
       "segundo_nombre": "Jose",
       "apellidos": "Gomez Hernandez",
@@ -162,7 +162,7 @@
     },
     {
       "numero_documento": "666666666",
-      "tipo_documento_id": "Tarjeta de Identidad",
+      "tipo_documento": "Tarjeta de Identidad",
       "primer_nombre": "Sofia",
       "segundo_nombre": "Alejandra",
       "apellidos": "Torres Rodriguez",
@@ -182,7 +182,7 @@
     },
     {
       "numero_documento": "888888888",
-      "tipo_documento_id": "Cedula",
+      "tipo_documento": "Cedula",
       "primer_nombre": "Carlos",
       "segundo_nombre": "Javier",
       "apellidos": "Perez Ramirez",
@@ -202,7 +202,7 @@
     },
     {
       "numero_documento": "101010101",
-      "tipo_documento_id": "Tarjeta de Identidad",
+      "tipo_documento": "Tarjeta de Identidad",
       "primer_nombre": "Isabel",
       "segundo_nombre": "Alejandra",
       "apellidos": "Gonzalez Diaz",
@@ -222,7 +222,7 @@
     },
     {
       "numero_documento": "121212121",
-      "tipo_documento_id": "Cedula",
+      "tipo_documento": "Cedula",
       "primer_nombre": "Luis",
       "segundo_nombre": "Enrique",
       "apellidos": "Hernandez Soto",
@@ -242,7 +242,7 @@
     },
     {
       "numero_documento": "131313131",
-      "tipo_documento_id": "Tarjeta de Identidad",
+      "tipo_documento": "Tarjeta de Identidad",
       "primer_nombre": "Ana",
       "segundo_nombre": "Carmen",
       "apellidos": "Gomez Castro",
@@ -262,7 +262,7 @@
     },
     {
       "numero_documento": "141414141",
-      "tipo_documento_id": "Cedula",
+      "tipo_documento": "Cedula",
       "primer_nombre": "Jose",
       "segundo_nombre": "Miguel",
       "apellidos": "Hernandez Diaz",
@@ -282,7 +282,7 @@
     },
     {
       "numero_documento": "151515151",
-      "tipo_documento_id": "Tarjeta de Identidad",
+      "tipo_documento": "Tarjeta de Identidad",
       "primer_nombre": "Maria",
       "segundo_nombre": "Josefina",
       "apellidos": "Rodriguez Soto",

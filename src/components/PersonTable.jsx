@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 //import { FaTrash, FaEdit } from "react-icons/fa"; eliminar si es necesario
 import "./table.css";
 const PersonTable = ({ data }) => {
+  console.log(data);
   const handleDelete = (id) => {
     Swal.fire({
       title: "¿Estás seguro de que quieres eliminar este registro?",
@@ -57,7 +58,7 @@ const PersonTable = ({ data }) => {
               {person.foto && (
                 <img
                   //src={person.foto}
-                  src={`data:image/png;base64,${person.foto.$binary.base64}`}
+                  //src={`data:image/png;base64,${person.foto.$binary.base64}`}
                   alt={person.foto.name}
                   style={{ maxWidth: "100%", height: "auto" }}
                 />
