@@ -44,7 +44,7 @@ const PersonTable = ({ data }) => {
       <tbody>
         {data.map((person) => (
           <tr key={person.numero_documento}>
-            <td>{person.tipo_documento_id}</td>
+            <td>{person.tipo_documento}</td>
             <td>{person.numero_documento}</td>
             <td>{person.primer_nombre}</td>
             <td>{person.segundo_nombre}</td>
@@ -56,7 +56,8 @@ const PersonTable = ({ data }) => {
             <td style={{ maxWidth: "100px" }}>
               {person.foto && (
                 <img
-                  //src={URL.createObjectURL(person.foto)}
+                  //src={person.foto}
+                  src={`data:image/png;base64,${person.foto.$binary.base64}`}
                   alt={person.foto.name}
                   style={{ maxWidth: "100%", height: "auto" }}
                 />
