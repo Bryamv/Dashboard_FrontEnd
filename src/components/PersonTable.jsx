@@ -57,7 +57,6 @@ const PersonTable = ({ data }) => {
               {person.foto && (
                 <img
                   //src={URL.createObjectURL(person.foto)}
-                  src={`./images/pier.jpg`}
                   alt={person.foto.name}
                   style={{ maxWidth: "100%", height: "auto" }}
                 />
