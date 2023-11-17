@@ -22,7 +22,8 @@ const ConsultPage = () => {
     setLoading(true);
     try {
       const response = await getPeople();
-      setPeople(response);
+      console.log(typeof response);
+      setPeople(response.usuarios);
     } catch (error) {
       setError(error);
     }
