@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 import PersonTable from "../components/PersonTable";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Spinner, Pagination } from "react-bootstrap";
-import { Form } from "react-bootstrap";
+import { Form, Alert } from "react-bootstrap";
 import getPeople from "../api/getPeople.js";
 
 const ConsultPage = () => {
@@ -33,6 +33,27 @@ const ConsultPage = () => {
   useEffect(() => {
     fetchPeople();
   }, []);
+  // Filtrar todos los elementos si el filtro no está vacío
+  const elementsToShow = useMemo(() => {
+    if (filter !== "") {
+      return people.filter((person) =>
+        person.numero_documento.includes(filter)
+      );
+    } else {
+      return people;
+    }
+  }, [filter, people]);
+
+  // Calcular los elementos que se deben mostrar en la página actual
+  const currentElements = useMemo(() => {
+    if (!elementsToShow) {
+      return [];
+    }
+    const indexOfLastElement = currentPage * elementosPorPagina;
+    const indexOfFirstElement = indexOfLastElement - elementosPorPagina;
+    console.log(elementsToShow.slice(indexOfFirstElement, indexOfLastElement));
+    return elementsToShow.slice(indexOfFirstElement, indexOfLastElement);
+  }, [elementsToShow, currentPage, elementosPorPagina]);
 
   if (isLoading) {
     return (
@@ -87,22 +108,12 @@ const ConsultPage = () => {
       </div>
     );
   }
-  const filteredPeople = people.filter((person) =>
-    person.numero_documento.includes(filter)
-  );
-  // Calcular los elementos que se deben mostrar en la página actual
-  const indexOfLastElement = currentPage * elementosPorPagina;
-  const indexOfFirstElement = indexOfLastElement - elementosPorPagina;
-  const currentElements = filteredPeople.slice(
-    indexOfFirstElement,
-    indexOfLastElement
-  );
 
   // Crear los items de paginación
   const pageNumbers = [];
   for (
     let i = 1;
-    i <= Math.ceil(filteredPeople.length / elementosPorPagina);
+    i <= Math.ceil(elementsToShow.length / elementosPorPagina);
     i++
   ) {
     if (
@@ -110,7 +121,7 @@ const ConsultPage = () => {
       i === currentPage - 1 ||
       i === currentPage + 1 ||
       i === 1 ||
-      i === Math.ceil(filteredPeople.length / elementosPorPagina)
+      i === Math.ceil(elementsToShow.length / elementosPorPagina)
     ) {
       pageNumbers.push(
         <Pagination.Item
@@ -148,12 +159,18 @@ const ConsultPage = () => {
                   setIsValid(true);
                 }
                 setFilter(e.target.value);
+                setCurrentPage(1);
               }}
             />
           </Form.Group>
         </Col>
         <Col className="col-12 mx-auto">
           <PersonTable data={currentElements} />
+          {currentElements.length === 0 && (
+            <Alert variant="info">
+              No se encontraron resultados para tu búsqueda.
+            </Alert>
+          )}
           <Pagination>
             <Pagination.First
               onClick={() => setCurrentPage(1)}
@@ -168,28 +185,28 @@ const ConsultPage = () => {
             {pageNumbers}
             <Pagination.Next
               onClick={() => {
-                console.log(filteredPeople.length);
+                console.log(elementsToShow.length);
                 setCurrentPage(
                   currentPage <
-                    Math.ceil(filteredPeople.length / elementosPorPagina)
+                    Math.ceil(elementsToShow.length / elementosPorPagina)
                     ? currentPage + 1
                     : currentPage
                 );
               }}
               disabled={
                 currentPage ===
-                Math.ceil(filteredPeople.length / elementosPorPagina)
+                Math.ceil(elementsToShow.length / elementosPorPagina)
               }
             />
             <Pagination.Last
               onClick={() =>
                 setCurrentPage(
-                  Math.ceil(filteredPeople.length / elementosPorPagina)
+                  Math.ceil(elementsToShow.length / elementosPorPagina)
                 )
               }
               disabled={
                 currentPage ===
-                Math.ceil(filteredPeople.length / elementosPorPagina)
+                Math.ceil(elementsToShow.length / elementosPorPagina)
               }
             />
           </Pagination>

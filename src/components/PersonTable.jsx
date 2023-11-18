@@ -2,12 +2,12 @@ import Table from "react-bootstrap/Table";
 import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import Swal from "sweetalert2";
-
+import axios from "axios";
 //import { FaTrash, FaEdit } from "react-icons/fa"; eliminar si es necesario
 import "./table.css";
 const PersonTable = ({ data }) => {
   console.log(data);
-  const handleDelete = (id) => {
+  const handleDelete = (numero_documento) => {
     Swal.fire({
       title: "¿Estás seguro de que quieres eliminar este registro?",
       text: "Esta acción no se puede deshacer",
@@ -17,11 +17,19 @@ const PersonTable = ({ data }) => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Sí, eliminar",
       cancelButtonText: "Cancelar",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        // Aquí  se hará el llamado a la api de eliminar
-        console.log("Eliminando registro con id: ", id);
-        Swal.fire("Eliminado!", "El registro ha sido eliminado.", "success");
+        try {
+          const response = await axios.delete(
+            "http://localhost:5000/api/delete",
+            numero_documento
+          );
+          console.log(response.res);
+          Swal.fire("Eliminado!", "El registro ha sido eliminado.", "success");
+        } catch (error) {
+          console.error("Error al eliminar el registro:", error);
+          Swal.fire("Error", "No se pudo eliminar el registro.", "error");
+        }
       }
     });
   };
