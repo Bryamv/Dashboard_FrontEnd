@@ -1,37 +1,13 @@
 import Table from "react-bootstrap/Table";
 import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
-import Swal from "sweetalert2";
-import axios from "axios";
-//import { FaTrash, FaEdit } from "react-icons/fa"; eliminar si es necesario
+
+import { Link } from "react-router-dom"; // Paso 1: Importar Link desde react-router-dom
 import "./table.css";
-const PersonTable = ({ data }) => {
+const PersonTable = ({ data, handleDelete }) => {
   console.log(data);
-  const handleDelete = (numero_documento) => {
-    Swal.fire({
-      title: "¿Estás seguro de que quieres eliminar este registro?",
-      text: "Esta acción no se puede deshacer",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const response = await axios.delete(
-            "http://localhost:5000/api/delete",
-            numero_documento
-          );
-          console.log(response.res);
-          Swal.fire("Eliminado!", "El registro ha sido eliminado.", "success");
-        } catch (error) {
-          console.error("Error al eliminar el registro:", error);
-          Swal.fire("Error", "No se pudo eliminar el registro.", "error");
-        }
-      }
-    });
+  const eliminarElemento = (id) => {
+    handleDelete(id);
   };
   return (
     <Table striped>
@@ -65,48 +41,29 @@ const PersonTable = ({ data }) => {
             <td style={{ maxWidth: "100px" }}>
               {person.foto && (
                 <img
-                  //src={person.foto}
-                  //src={`data:image/png;base64,${person.foto.$binary.base64}`}
                   alt={person.foto.name}
                   style={{ maxWidth: "100%", height: "auto" }}
                 />
               )}
             </td>
-            <td style={{ width: "500px" }}>
-              <Button
-                variant="info"
+            <td style={{ width: "220px" }}>
+              <Link
+                to={`/edit/${person.numero_documento}`}
+                className="btn btn-info me-5"
                 style={{ color: "white" }}
-                className="me-5"
               >
                 Editar
-              </Button>
+              </Link>
               <Button
                 variant="danger"
-                onClick={() => handleDelete(person.numero_documento)}
+                onClick={() => eliminarElemento(person.numero_documento)}
               >
                 Eliminar
               </Button>
+              {/* Paso 4: Utilizar el componente Link para envolver el botón de "Editar" */}
             </td>
           </tr>
         ))}
-        {/* <tr>
-            <td>CC</td>
-            <td>123456789</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>Smith</td>
-            <td>01/01/1990</td>
-            <td>Masculino</td>
-            <td>john.smith@example.com</td>
-            <td>1234567890</td>
-            <td>foto.jpg</td>
-            <td style={{ width: "500px" }}>
-              <Button variant="info" style={{ color: "white" }} className="me-5">
-                Editar
-              </Button>
-              <Button variant="danger">Eliminar</Button>
-            </td>
-          </tr> */}
       </tbody>
     </Table>
   );
@@ -114,5 +71,10 @@ const PersonTable = ({ data }) => {
 
 PersonTable.propTypes = {
   data: PropTypes.array.isRequired,
+};
+
+PersonTable.propTypes = {
+  data: PropTypes.array.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
 export default PersonTable;

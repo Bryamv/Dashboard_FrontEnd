@@ -5,13 +5,15 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { Spinner, Pagination } from "react-bootstrap";
 import { Form, Alert } from "react-bootstrap";
 import getPeople from "../api/getPeople.js";
-
+import Swal from "sweetalert2";
+import axios from "axios";
 const ConsultPage = () => {
   const [people, setPeople] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [isValid, setIsValid] = useState(true);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [reload, setReload] = useState(false);
   const elementosPorPagina = 5;
 
   //codigo para filtrar los datos por documento
@@ -22,9 +24,9 @@ const ConsultPage = () => {
     setLoading(true);
     try {
       const response = await getPeople();
-      setPeople(response);
+      //setPeople(response);
       //production
-      //setPeople(response.usuarios);
+      setPeople(response.usuarios);
     } catch (error) {
       setError(error);
     }
@@ -32,7 +34,43 @@ const ConsultPage = () => {
   };
   useEffect(() => {
     fetchPeople();
-  }, []);
+    setReload(false);
+  }, [reload]);
+
+  //eliminar persona
+  const handleDelete = (numero_documento) => {
+    Swal.fire({
+      title: "¿Estás seguro de que quieres eliminar este registro?",
+      text: "Esta acción no se puede deshacer",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await axios.delete(
+            "http://localhost:5000/api/delete",
+            {
+              params: {
+                numero_documento,
+              },
+            }
+          );
+          console.log(response.res);
+          Swal.fire("Eliminado!", "El registro ha sido eliminado.", "success");
+          setReload(true);
+        } catch (error) {
+          console.error("Error al eliminar el registro:", error);
+          Swal.fire("Error", "No se pudo eliminar el registro.", "error");
+        }
+      }
+    });
+  };
+  //fin de eliminar persona
+
   // Filtrar todos los elementos si el filtro no está vacío
   const elementsToShow = useMemo(() => {
     if (filter !== "") {
@@ -165,11 +203,9 @@ const ConsultPage = () => {
           </Form.Group>
         </Col>
         <Col className="col-12 mx-auto">
-          <PersonTable data={currentElements} />
+          <PersonTable data={currentElements} handleDelete={handleDelete} />
           {currentElements.length === 0 && (
-            <Alert variant="info">
-              No se encontraron resultados para tu búsqueda.
-            </Alert>
+            <Alert variant="info">No se encontraron resultados</Alert>
           )}
           <Pagination>
             <Pagination.First

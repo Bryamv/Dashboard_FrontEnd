@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import CreatePage from "./pages/CreatePage";
 import LogPage from "./pages/LogPage";
 import ConsultPage from "./pages/ConsultPage";
+import EditForm from "./components/EditForm";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "/log",
         element: <LogPage />,
+      },
+      {
+        path: "/edit/:id",
+        element: <EditForm />,
       },
     ],
   },
