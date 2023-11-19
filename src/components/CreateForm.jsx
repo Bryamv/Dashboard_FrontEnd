@@ -38,7 +38,7 @@ function CreateForm() {
       );
       Swal.fire({
         title: "Usuario creado exitosamente",
-        text: `El usuario ${response.data.res} ha sido creado exitosamente.`,
+        html: `El usuario <strong>${data.numero_documento}</strong> ha sido creado exitosamente.`,
         icon: "success",
         confirmButtonText: "Aceptar",
       });

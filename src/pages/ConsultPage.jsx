@@ -39,6 +39,7 @@ const ConsultPage = () => {
 
   //eliminar persona
   const handleDelete = (numero_documento) => {
+    console.log(`documento a eliminar: ${numero_documento}`);
     Swal.fire({
       title: "¿Estás seguro de que quieres eliminar este registro?",
       text: "Esta acción no se puede deshacer",
