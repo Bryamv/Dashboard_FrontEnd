@@ -44,8 +44,8 @@ const PersonTable = ({ data, handleDelete }) => {
                 <td style={{ maxWidth: "100px" }}>
                   {person.foto && (
                     <ModalImage
-                      small={`data:image/png;base64,${person.foto.$binary.base64}`}
-                      large={`data:image/png;base64,${person.foto.$binary.base64}`}
+                      small={`data:image/png;base64,${person.foto}`}
+                      large={`data:image/png;base64,${person.foto}`}
                       alt={person.foto.name}
                     />
                   )}

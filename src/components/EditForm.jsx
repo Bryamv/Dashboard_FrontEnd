@@ -28,14 +28,14 @@ const EditForm = () => {
         }, 
       } */
       );
-
+      console.log(response.data.usuario.foto);
       setPerson(response.data.usuario);
       setImage(
-        `data:image/jpeg;base64,${response.data.usuario.foto.$binary.base64}`
+        `data:image/jpeg;base64,${response.data.usuario.foto}`
       );
       setValue(
         "foto",
-        `data:image/jpeg;base64,${response.data.usuario.foto.$binary.base64}`
+        `${response.data.usuario.foto}`
       );
 
       // Luego, cuando recibas los datos de tu petición, puedes establecer los valores de los campos
@@ -69,7 +69,7 @@ const EditForm = () => {
     try {
       const response = await axios.post(
         //cambiar el endPoit
-        "http://localhost:5001/api/update",
+        "http://localhost:3001/api/updatepeople",
         formData,
         {
           headers: {
