@@ -1,30 +1,31 @@
 import { useEffect, useState, useMemo } from "react";
 
-import PersonTable from "../components/PersonTable";
+import LogTable from "../components/LogTable";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Spinner, Pagination } from "react-bootstrap";
 import { Form, Alert } from "react-bootstrap";
 import getLog from "../api/getLog.js";
 const LogPage = () => {
-  const [people, setPeople] = useState(null);
+  const [logs, setLogs] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [isValid, setIsValid] = useState(true);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [reload, setReload] = useState(false);
+  const [filter, setFilter] = useState("");
   const elementosPorPagina = 5;
 
   //codigo para filtrar los datos por documento
-  const [filter, setFilter] = useState("");
 
   //fin de codigo para filtrar los datos por documento
   const fetchLog = async () => {
     setLoading(true);
     try {
       const response = await getLog();
-      //setPeople(response);
+      //setLogs(response);
       //production
-      setPeople(response.usuarios);
+
+      setLogs(response.usuarios);
     } catch (error) {
       setError(error);
     }
@@ -38,13 +39,11 @@ const LogPage = () => {
   // Filtrar todos los elementos si el filtro no está vacío
   const elementsToShow = useMemo(() => {
     if (filter !== "") {
-      return people.filter((person) =>
-        person.numero_documento.includes(filter)
-      );
+      return logs.filter((person) => person.numero_documento.includes(filter));
     } else {
-      return people;
+      return logs;
     }
-  }, [filter, people]);
+  }, [filter, logs]);
 
   // Calcular los elementos que se deben mostrar en la página actual
   const currentElements = useMemo(() => {
@@ -53,7 +52,7 @@ const LogPage = () => {
     }
     const indexOfLastElement = currentPage * elementosPorPagina;
     const indexOfFirstElement = indexOfLastElement - elementosPorPagina;
-    console.log(elementsToShow.slice(indexOfFirstElement, indexOfLastElement));
+
     return elementsToShow.slice(indexOfFirstElement, indexOfLastElement);
   }, [elementsToShow, currentPage, elementosPorPagina]);
 
@@ -167,7 +166,7 @@ const LogPage = () => {
           </Form.Group>
         </Col>
         <Col className="col-12 mx-auto">
-          <PersonTable data={currentElements} />
+          <LogTable data={currentElements} />
           {currentElements.length === 0 && (
             <Alert variant="info">No se encontraron resultados</Alert>
           )}
@@ -185,7 +184,7 @@ const LogPage = () => {
             {pageNumbers}
             <Pagination.Next
               onClick={() => {
-                console.log(elementsToShow.length);
+                console.logs(elementsToShow.length);
                 setCurrentPage(
                   currentPage <
                     Math.ceil(elementsToShow.length / elementosPorPagina)
