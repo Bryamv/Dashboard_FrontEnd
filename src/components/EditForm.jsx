@@ -1,10 +1,11 @@
-import { redirect, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { Form, Button, Container, Row, Col, Spinner } from "react-bootstrap";
 const EditForm = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [person, setPerson] = useState(null);
   const [image, setImage] = useState(null);
@@ -20,11 +21,13 @@ const EditForm = () => {
   //logica para cargar los datos actuales
   const fetchPerson = async () => {
     try {
-      const response = await axios.get(`http://localhost:5001/api/get`, {
-        params: {
+      const response = await axios.get(
+        `http://localhost:5001/api/get/${id}` /* , {
+        /*  params: {
           numero_documento: id,
-        },
-      });
+        }, 
+      } */
+      );
 
       setPerson(response.data.usuario);
       setImage(
@@ -82,7 +85,7 @@ const EditForm = () => {
         confirmButtonText: "Aceptar",
       });
       setImage(null);
-      redirect("/consult");
+      navigate("/consult");
     } catch (error) {
       if (error.response) {
         Swal.fire({
