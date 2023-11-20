@@ -36,6 +36,7 @@ function CreateForm() {
           },
         }
       );
+      console.log(response);
       Swal.fire({
         title: "Usuario creado exitosamente",
         html: `El usuario <strong>${data.numero_documento}</strong> ha sido creado exitosamente.`,
@@ -151,7 +152,7 @@ function CreateForm() {
                         message: "No debe ser mayor de 30 caracteres",
                       },
                       pattern: {
-                        value: /^[A-Za-z]+$/,
+                        value: /^(?:[a-zA-ZáéíóúñÁÉÍÓÚÑ]+\s?){1,2}$/,
                         message: "No debe ser un número",
                       },
                     })}
@@ -171,7 +172,6 @@ function CreateForm() {
                     type="text"
                     isInvalid={!!errors.segundo_nombre}
                     {...register("segundo_nombre", {
-                      required: "Este campo es obligatorio",
                       maxLength: {
                         value: 30,
                         message: "No debe ser mayor de 30 caracteres",

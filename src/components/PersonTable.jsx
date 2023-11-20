@@ -64,7 +64,6 @@ const PersonTable = ({ data, handleDelete }) => {
                   >
                     Eliminar
                   </Button>
-                  {/* Paso 4: Utilizar el componente Link para envolver el botón de "Editar" */}
                 </td>
               </tr>
             )
