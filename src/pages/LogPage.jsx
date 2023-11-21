@@ -13,6 +13,7 @@ const LogPage = () => {
   const [error, setError] = useState(null);
   const [reload, setReload] = useState(false);
   const [filter, setFilter] = useState("");
+  const [tipoFilter, setTipoFilter] = useState("");
   const elementosPorPagina = 5;
 
   //codigo para filtrar los datos por documento
@@ -36,25 +37,32 @@ const LogPage = () => {
     setReload(false);
   }, [reload]);
 
-  // Filtrar todos los elementos si el filtro no está vacío
-  const elementsToShow = useMemo(() => {
-    if (filter !== "") {
-      return logs.filter((person) => person.numero_documento.includes(filter));
-    } else {
-      return logs;
-    }
-  }, [filter, logs]);
+  // Agrega un nuevo estado para el filtro de tipo_documento
 
-  // Calcular los elementos que se deben mostrar en la página actual
-  const currentElements = useMemo(() => {
-    if (!elementsToShow) {
-      return [];
-    }
-    const indexOfLastElement = currentPage * elementosPorPagina;
-    const indexOfFirstElement = indexOfLastElement - elementosPorPagina;
 
-    return elementsToShow.slice(indexOfFirstElement, indexOfLastElement);
-  }, [elementsToShow, currentPage, elementosPorPagina]);
+// Filtrar todos los elementos si el filtro no está vacío
+const elementsToShow = useMemo(() => {
+  if (filter !== "" || tipoFilter !== "Seleccionar") {
+    return logs.filter((person) => 
+      person.numero_documento.includes(filter) && 
+      person.tipo_documento.includes(tipoFilter)
+    );
+  } else {
+    return logs;
+  }
+}, [filter, tipoFilter, logs]);
+
+// Calcular los elementos que se deben mostrar en la página actual
+const currentElements = useMemo(() => {
+  if (!elementsToShow) {
+    return [];
+  }
+  const indexOfLastElement = currentPage * elementosPorPagina;
+  const indexOfFirstElement = indexOfLastElement - elementosPorPagina;
+
+  return elementsToShow.slice(indexOfFirstElement, indexOfLastElement);
+}, [elementsToShow, currentPage, elementosPorPagina]);
+
 
   if (isLoading) {
     return (
@@ -142,11 +150,11 @@ const LogPage = () => {
     <Container className="mt-5" fluid={true}>
       <Row className="mb-3">
         <Col className="col-12 mx-auto">
-          <h1 className="text-center">Consultar Personas</h1>
+          <h1 className="text-center">Consultar Logs</h1>
         </Col>
       </Row>
       <Row>
-        <Col className="col-4 my-3">
+        <Col className="col-3 my-3">
           <Form.Group controlId="formDocumentNumber">
             <Form.Label>Buscar Documento</Form.Label>
             <Form.Control
@@ -165,16 +173,17 @@ const LogPage = () => {
             />
           </Form.Group>
         </Col>
-        <Col className="col-4 my-3">
+        <Col className="col-3 my-3">
         <Form.Group controlId="formDocumentType">
               <Form.Label>Tipo de documento</Form.Label>
-              <Form.Control as="select" >
+              <Form.Control as="select" onChange={(e) => setTipoFilter(e.target.value)}>
+              <option>Seleccionar</option>
                 <option>Tarjeta de identidad</option>
                 <option>Cédula</option>
               </Form.Control>
             </Form.Group>
         </Col>
-        <Col className="col-4 my-3">
+        <Col className="col-3 my-3">
         <Form.Group controlId="formBirthDate">
                   <Form.Label>Fecha de Transaccion</Form.Label>
                   <Form.Control
