@@ -90,7 +90,7 @@ const ConsultPage = () => {
     }
     const indexOfLastElement = currentPage * elementosPorPagina;
     const indexOfFirstElement = indexOfLastElement - elementosPorPagina;
-    console.log(elementsToShow.slice(indexOfFirstElement, indexOfLastElement));
+    
     return elementsToShow.slice(indexOfFirstElement, indexOfLastElement);
   }, [elementsToShow, currentPage, elementosPorPagina]);
 

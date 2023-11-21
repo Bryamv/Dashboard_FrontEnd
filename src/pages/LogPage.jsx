@@ -25,7 +25,7 @@ const LogPage = () => {
       //setLogs(response);
       //production
 
-      setLogs(response.usuarios);
+      setLogs(response.registros);
     } catch (error) {
       setError(error);
     }
@@ -165,6 +165,27 @@ const LogPage = () => {
             />
           </Form.Group>
         </Col>
+        <Col className="col-4 my-3">
+        <Form.Group controlId="formDocumentType">
+              <Form.Label>Tipo de documento</Form.Label>
+              <Form.Control as="select" >
+                <option>Tarjeta de identidad</option>
+                <option>Cédula</option>
+              </Form.Control>
+            </Form.Group>
+        </Col>
+        <Col className="col-4 my-3">
+        <Form.Group controlId="formBirthDate">
+                  <Form.Label>Fecha de Transaccion</Form.Label>
+                  <Form.Control
+                    type="date"          
+                    
+                  />
+                  
+                </Form.Group>
+        </Col>
+
+
         <Col className="col-12 mx-auto">
           <LogTable data={currentElements} />
           {currentElements.length === 0 && (

@@ -5,7 +5,7 @@ import ModalImage from "react-modal-image";
 import { Link } from "react-router-dom"; // Paso 1: Importar Link desde react-router-dom
 import "./table.css";
 const PersonTable = ({ data, handleDelete }) => {
-  console.log(data);
+  
   const eliminarElemento = (id) => {
     handleDelete(id);
   };
@@ -29,7 +29,7 @@ const PersonTable = ({ data, handleDelete }) => {
       <tbody>
         {data.map(
           (person) => (
-            console.log(person),
+            
             (
               <tr key={person.numero_documento}>
                 <td>{person.tipo_documento}</td>
@@ -44,8 +44,8 @@ const PersonTable = ({ data, handleDelete }) => {
                 <td style={{ maxWidth: "100px" }}>
                   {person.foto && (
                     <ModalImage
-                      small={`data:image/png;base64,${person.foto}`}
-                      large={`data:image/png;base64,${person.foto}`}
+                      small={`data:image/jpg;base64,${person.foto}`}
+                      large={`data:image/jpg;base64,${person.foto}`}
                       alt={person.foto.name}
                     />
                   )}

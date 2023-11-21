@@ -18,11 +18,11 @@ const LogTable = ({ data }) => {
       <tbody>
         {data.map((person) => (
           <tr key={person.numero_documento}>
+            <td>{person.tipo}</td>
             <td>{person.tipo_documento}</td>
             <td>{person.numero_documento}</td>
-            <td>{person.primer_nombre}</td>
-            <td>{person.segundo_nombre}</td>
-            <td>{person.apellidos}</td>
+            <td>{person.fecha}</td>
+            <td>{person.descripccion}</td>
           </tr>
         ))}
       </tbody>
