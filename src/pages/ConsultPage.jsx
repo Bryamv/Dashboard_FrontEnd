@@ -37,6 +37,33 @@ const ConsultPage = () => {
     setReload(false);
   }, [reload]);
 
+  const fetchPerson = async (id) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `http://localhost:5001/api/get/${id}` /* , {
+        /*  params: {
+          numero_documento: id,
+        }, 
+      } */
+      );
+      setPeople([response.data.usuario]);
+      console.log([response.data.usuario]);
+      console.log(`response: ${response.data.usuario}`);
+    } catch (error) {
+      setError(error);
+    }
+    setLoading(false);
+  };
+  useEffect(() => {
+    fetchPeople();
+    setReload(false);
+  }, [reload]);
+  useEffect(() => {
+    if (!filter || filter.trim() === "") {
+      fetchPeople();
+    }
+  }, [filter]);
   //eliminar persona
   const handleDelete = (numero_documento) => {
     console.log(`documento a eliminar: ${numero_documento}`);
@@ -73,7 +100,7 @@ const ConsultPage = () => {
   //fin de eliminar persona
 
   // Filtrar todos los elementos si el filtro no está vacío
-  const elementsToShow = useMemo(() => {
+  /*   const elementsToShow = useMemo(() => {
     if (filter !== "") {
       return people.filter((person) =>
         person.numero_documento.includes(filter)
@@ -81,18 +108,18 @@ const ConsultPage = () => {
     } else {
       return people;
     }
-  }, [filter, people]);
+  }, [filter, people]); */
 
   // Calcular los elementos que se deben mostrar en la página actual
   const currentElements = useMemo(() => {
-    if (!elementsToShow) {
+    if (!people) {
       return [];
     }
     const indexOfLastElement = currentPage * elementosPorPagina;
     const indexOfFirstElement = indexOfLastElement - elementosPorPagina;
-    
-    return elementsToShow.slice(indexOfFirstElement, indexOfLastElement);
-  }, [elementsToShow, currentPage, elementosPorPagina]);
+    console.log(people.length);
+    return people.slice(indexOfFirstElement, indexOfLastElement);
+  }, [people, currentPage, elementosPorPagina]);
 
   if (isLoading) {
     return (
@@ -150,17 +177,13 @@ const ConsultPage = () => {
 
   // Crear los items de paginación
   const pageNumbers = [];
-  for (
-    let i = 1;
-    i <= Math.ceil(elementsToShow.length / elementosPorPagina);
-    i++
-  ) {
+  for (let i = 1; i <= Math.ceil(people.length / elementosPorPagina); i++) {
     if (
       i === currentPage ||
       i === currentPage - 1 ||
       i === currentPage + 1 ||
       i === 1 ||
-      i === Math.ceil(elementsToShow.length / elementosPorPagina)
+      i === Math.ceil(people.length / elementosPorPagina)
     ) {
       pageNumbers.push(
         <Pagination.Item
@@ -187,22 +210,36 @@ const ConsultPage = () => {
         <Col className="col-4 my-3">
           <Form.Group controlId="formDocumentNumber">
             <Form.Label>Buscar Documento</Form.Label>
-            <Form.Control
-              type="text"
-              value={filter}
-              isInvalid={!isValid}
-              onChange={(e) => {
-                if (!/^[0-9]*$/.test(e.target.value)) {
-                  setIsValid(false);
-                } else {
-                  setIsValid(true);
-                }
-                setFilter(e.target.value);
-                setCurrentPage(1);
-              }}
-            />
+            <div className="d-flex">
+              <Form.Control
+                type="text"
+                value={filter}
+                isInvalid={!isValid}
+                onChange={(e) => {
+                  if (!/^[0-9]*$/.test(e.target.value)) {
+                    setIsValid(false);
+                  } else {
+                    setIsValid(true);
+                  }
+                  setFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
+              />
+              <Button
+                variant="info"
+                type="button"
+                onClick={() => {
+                  fetchPerson(filter);
+                  console.log(people);
+                }}
+                className="mx-2"
+              >
+                Buscar
+              </Button>
+            </div>
           </Form.Group>
         </Col>
+
         <Col className="col-12 mx-auto">
           <PersonTable data={currentElements} handleDelete={handleDelete} />
           {currentElements.length === 0 && (
@@ -222,28 +259,23 @@ const ConsultPage = () => {
             {pageNumbers}
             <Pagination.Next
               onClick={() => {
-                console.log(elementsToShow.length);
+                console.log(people.length);
                 setCurrentPage(
-                  currentPage <
-                    Math.ceil(elementsToShow.length / elementosPorPagina)
+                  currentPage < Math.ceil(people.length / elementosPorPagina)
                     ? currentPage + 1
                     : currentPage
                 );
               }}
               disabled={
-                currentPage ===
-                Math.ceil(elementsToShow.length / elementosPorPagina)
+                currentPage === Math.ceil(people.length / elementosPorPagina)
               }
             />
             <Pagination.Last
               onClick={() =>
-                setCurrentPage(
-                  Math.ceil(elementsToShow.length / elementosPorPagina)
-                )
+                setCurrentPage(Math.ceil(people.length / elementosPorPagina))
               }
               disabled={
-                currentPage ===
-                Math.ceil(elementsToShow.length / elementosPorPagina)
+                currentPage === Math.ceil(people.length / elementosPorPagina)
               }
             />
           </Pagination>

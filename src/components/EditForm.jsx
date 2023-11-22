@@ -21,22 +21,15 @@ const EditForm = () => {
   //logica para cargar los datos actuales
   const fetchPerson = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:5001/api/get/${id}` /* , {
-        /*  params: {
-          numero_documento: id,
-        }, 
-      } */
-      );
+      const response = await axios.get(`http://localhost:5001/api/get/${id}`, {
+        params: {
+          edit: true,
+        },
+      });
       console.log(response.data.usuario.foto);
       setPerson(response.data.usuario);
-      setImage(
-        `data:image/jpeg;base64,${response.data.usuario.foto}`
-      );
-      setValue(
-        "foto",
-        `${response.data.usuario.foto}`
-      );
+      setImage(`data:image/jpeg;base64,${response.data.usuario.foto}`);
+      setValue("foto", `${response.data.usuario.foto}`);
 
       // Luego, cuando recibas los datos de tu petición, puedes establecer los valores de los campos
       setValue("apellidos", response.data.usuario.apellidos);

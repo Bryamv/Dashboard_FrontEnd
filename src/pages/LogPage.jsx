@@ -14,6 +14,8 @@ const LogPage = () => {
   const [reload, setReload] = useState(false);
   const [filter, setFilter] = useState("");
   const [tipoFilter, setTipoFilter] = useState("");
+  const [fechaFilter, setfechaFilter] = useState("");
+
   const elementosPorPagina = 5;
 
   //codigo para filtrar los datos por documento
@@ -27,6 +29,7 @@ const LogPage = () => {
       //production
 
       setLogs(response.registros);
+      console.log();
     } catch (error) {
       setError(error);
     }
@@ -39,30 +42,29 @@ const LogPage = () => {
 
   // Agrega un nuevo estado para el filtro de tipo_documento
 
+  // Filtrar todos los elementos si el filtro no está vacío
+  const elementsToShow = useMemo(() => {
+    if (filter !== "" || tipoFilter !== "" || fechaFilter !== "") {
+      return logs.filter(
+        (log) =>
+          log.numero_documento.includes(filter) &&
+          log.tipo_documento.includes(tipoFilter)
+      );
+    } else {
+      return logs;
+    }
+  }, [filter, tipoFilter, fechaFilter, logs]);
 
-// Filtrar todos los elementos si el filtro no está vacío
-const elementsToShow = useMemo(() => {
-  if (filter !== "" || tipoFilter !== "Seleccionar") {
-    return logs.filter((person) => 
-      person.numero_documento.includes(filter) && 
-      person.tipo_documento.includes(tipoFilter)
-    );
-  } else {
-    return logs;
-  }
-}, [filter, tipoFilter, logs]);
+  // Calcular los elementos que se deben mostrar en la página actual
+  const currentElements = useMemo(() => {
+    if (!elementsToShow) {
+      return [];
+    }
+    const indexOfLastElement = currentPage * elementosPorPagina;
+    const indexOfFirstElement = indexOfLastElement - elementosPorPagina;
 
-// Calcular los elementos que se deben mostrar en la página actual
-const currentElements = useMemo(() => {
-  if (!elementsToShow) {
-    return [];
-  }
-  const indexOfLastElement = currentPage * elementosPorPagina;
-  const indexOfFirstElement = indexOfLastElement - elementosPorPagina;
-
-  return elementsToShow.slice(indexOfFirstElement, indexOfLastElement);
-}, [elementsToShow, currentPage, elementosPorPagina]);
-
+    return elementsToShow.slice(indexOfFirstElement, indexOfLastElement);
+  }, [elementsToShow, currentPage, elementosPorPagina]);
 
   if (isLoading) {
     return (
@@ -174,29 +176,34 @@ const currentElements = useMemo(() => {
           </Form.Group>
         </Col>
         <Col className="col-3 my-3">
-        <Form.Group controlId="formDocumentType">
-              <Form.Label>Tipo de documento</Form.Label>
-              <Form.Control as="select" onChange={(e) => setTipoFilter(e.target.value)}>
+          <Form.Group controlId="formDocumentType">
+            <Form.Label>Tipo de documento</Form.Label>
+            <Form.Control
+              as="select"
+              onChange={(e) => setTipoFilter(e.target.value)}
+            >
               <option>Seleccionar</option>
-                <option>Tarjeta de identidad</option>
-                <option>Cédula</option>
-              </Form.Control>
-            </Form.Group>
+              <option>Tarjeta de identidad</option>
+              <option>Cédula</option>
+            </Form.Control>
+          </Form.Group>
         </Col>
         <Col className="col-3 my-3">
-        <Form.Group controlId="formBirthDate">
-                  <Form.Label>Fecha de Transaccion</Form.Label>
-                  <Form.Control
-                    type="date"          
-                    
-                  />
-                  
-                </Form.Group>
+          <Form.Group controlId="formBirthDate">
+            <Form.Label>Fecha de Transaccion</Form.Label>
+            <Form.Control
+              type="date"
+              onChange={(e) => {
+                console.log(e.target.value);
+                setfechaFilter(e.target.value);
+              }}
+            />
+          </Form.Group>
         </Col>
-
 
         <Col className="col-12 mx-auto">
           <LogTable data={currentElements} />
+          {console.log(currentElements)}
           {currentElements.length === 0 && (
             <Alert variant="info">No se encontraron resultados</Alert>
           )}

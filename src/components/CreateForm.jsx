@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import axios from "axios";
-
-
+import moment from "moment";
+import "moment/locale/es";
+import "./style.css";
 function CreateForm() {
   const [image, setImage] = useState(null);
   const [isLoading, setLoading] = useState(false);
@@ -20,7 +21,8 @@ function CreateForm() {
 
   const onSubmit = async (data) => {
     setLoading(true);
-   
+    moment.updateLocale("es"); //no funciona actualmente
+    data.fecha_nacimiento = moment(data.fecha_nacimiento).format("DD-MMM-YYYY");
     console.log(data.fecha_nacimiento);
     const formData = new FormData();
 
@@ -154,7 +156,7 @@ function CreateForm() {
                         message: "No debe ser mayor de 30 caracteres",
                       },
                       pattern: {
-                        value: /^(?:[a-zA-ZáéíóúñÁÉÍÓÚÑ]+\s?)$/,
+                        value: /^(?:[a-zA-ZáéíóúñÁÉÍÓÚÑ]+\s?){1,2}$/,
                         message: "No debe ser un número",
                       },
                     })}
@@ -179,7 +181,7 @@ function CreateForm() {
                         message: "No debe ser mayor de 30 caracteres",
                       },
                       pattern: {
-                        value: /^(?:[a-zA-ZáéíóúñÁÉÍÓÚÑ]+\s?){1,2}$/,
+                        value: /^[A-Za-z]+$/,
                         message: "No debe ser un número",
                       },
                     })}
