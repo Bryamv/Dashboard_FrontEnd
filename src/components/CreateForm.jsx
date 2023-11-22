@@ -33,7 +33,7 @@ function CreateForm() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/createpeople",
+        "http://localhost:3001/api/createpeople",
         formData,
         {
           headers: {
