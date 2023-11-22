@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import moment from "moment";
 import { Form, Button, Container, Row, Col, Spinner } from "react-bootstrap";
 const EditForm = () => {
   const navigate = useNavigate();
@@ -53,6 +54,7 @@ const EditForm = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     console.log(data);
+    data.fecha_nacimiento = moment(data.fecha_nacimiento).format("YYYY-MM-DD");
     const formData = new FormData();
 
     for (const key in data) {
