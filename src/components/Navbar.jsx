@@ -5,8 +5,7 @@ import Navbar from "react-bootstrap/Navbar";
 
 const NavBar = () => {
   const routes = [
-    ["Home", "/"],
-    ["Registrar", "/register"],
+    ["Registrar", "/"],
     ["Consultar", "/consult"],
     ["Log", "/log"],
   ];

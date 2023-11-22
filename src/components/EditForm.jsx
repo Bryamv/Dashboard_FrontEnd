@@ -36,7 +36,13 @@ const EditForm = () => {
       setValue("apellidos", response.data.usuario.apellidos);
       setValue("celular", response.data.usuario.celular);
       setValue("correo_electronico", response.data.usuario.correo_electronico);
-      setValue("fecha_nacimiento", response.data.usuario.fecha_nacimiento);
+      setValue(
+        "fecha_nacimiento",
+        (response.data.fecha_nacimiento = moment(
+          response.data.usuario.fecha_nacimiento
+        ).format("YYYY-MM-DD"))
+      );
+
       setValue("genero_id", response.data.usuario.genero_id);
       setValue("numero_documento", response.data.usuario.numero_documento);
       setValue("primer_nombre", response.data.usuario.primer_nombre);
@@ -53,8 +59,8 @@ const EditForm = () => {
   //logica para actualizar
   const onSubmit = async (data) => {
     setLoading(true);
-    console.log(data);
-    data.fecha_nacimiento = moment(data.fecha_nacimiento).format("YYYY-MM-DD");
+    data.fecha_nacimiento = moment(data.fecha_nacimiento).format("DD-MMM-YYYY");
+
     const formData = new FormData();
 
     for (const key in data) {
@@ -72,7 +78,7 @@ const EditForm = () => {
           },
         }
       );
-      console.log(response);
+
       Swal.fire({
         title: "Usuario actualizado exitosamente",
         html: `El usuario <strong>${data.numero_documento}</strong> ha sido actualizado exitosamente.`,

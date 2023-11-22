@@ -116,7 +116,11 @@ const LogPage = () => {
             variant="info"
             type="button"
             className="mt-3"
-            onClick={fetchLog}
+            onClick={() => {
+              setError(null);
+
+              fetchLog();
+            }}
           >
             Reintentar
           </Button>

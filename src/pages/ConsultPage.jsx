@@ -40,18 +40,10 @@ const ConsultPage = () => {
   const fetchPerson = async (id) => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        `http://localhost:5001/api/get/${id}` /* , {
-        /*  params: {
-          numero_documento: id,
-        }, 
-      } */
-      );
+      const response = await axios.get(`http://localhost:5001/api/get/${id}`);
       setPeople([response.data.usuario]);
-      console.log([response.data.usuario]);
-      console.log(`response: ${response.data.usuario}`);
     } catch (error) {
-      setError(error);
+      currentElements.length = 0;
     }
     setLoading(false);
   };
@@ -117,7 +109,6 @@ const ConsultPage = () => {
     }
     const indexOfLastElement = currentPage * elementosPorPagina;
     const indexOfFirstElement = indexOfLastElement - elementosPorPagina;
-    console.log(people.length);
     return people.slice(indexOfFirstElement, indexOfLastElement);
   }, [people, currentPage, elementosPorPagina]);
 
@@ -166,7 +157,10 @@ const ConsultPage = () => {
             variant="info"
             type="button"
             className="mt-3"
-            onClick={fetchPeople}
+            onClick={() => {
+              setError(null);
+              fetchPeople();
+            }}
           >
             Reintentar
           </Button>
@@ -230,9 +224,9 @@ const ConsultPage = () => {
                 type="button"
                 onClick={() => {
                   fetchPerson(filter);
-                  console.log(people);
                 }}
                 className="mx-2"
+                disabled={filter === ""}
               >
                 Buscar
               </Button>
