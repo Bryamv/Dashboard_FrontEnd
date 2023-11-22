@@ -72,7 +72,7 @@ const ConsultPage = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.delete(
-            "http://localhost:5005/api/delete",
+            "http://localhost:5002/api/delete",
             {
               params: {
                 numero_documento,

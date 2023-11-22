@@ -12,7 +12,7 @@ const LogTable = ({ data }) => {
           <th>Tipo De Documento</th>
           <th>No. Documento</th>
           <th>Fecha de Transaccion</th>
-          <th>Descripccion</th>
+          <th>Descripcion</th>
         </tr>
       </thead>
       <tbody>
@@ -22,7 +22,7 @@ const LogTable = ({ data }) => {
             <td>{person.tipo_documento}</td>
             <td>{person.numero_documento}</td>
             <td>{person.fecha}</td>
-            <td>{person.descripccion}</td>
+            <td>{person.descripcion}</td>
           </tr>
         ))}
       </tbody>

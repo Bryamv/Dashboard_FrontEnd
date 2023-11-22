@@ -70,7 +70,7 @@ const EditForm = () => {
     try {
       const response = await axios.post(
         //cambiar el endPoit
-        "http://localhost:3001/api/updatepeople",
+        "http://localhost:3002/api/updatepeople",
         formData,
         {
           headers: {
