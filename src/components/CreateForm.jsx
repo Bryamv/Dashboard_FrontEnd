@@ -7,6 +7,8 @@ import moment from "moment";
 
 import "./style.css";
 function CreateForm() {
+  let today = new Date().toISOString().split("T")[0];
+
   const [image, setImage] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const {
@@ -185,7 +187,7 @@ function CreateForm() {
                           "El segundo nombre no debe exceder los 30 caracteres.",
                       },
                       pattern: {
-                        value: /^(?:[a-zA-ZáéíóúñÁÉÍÓÚÑ]+\s?){1,2}$/,
+                        value: /^(?:[a-zA-ZáéíóúñÁÉÍÓÚÑ]+\s?){1,}$/,
                         message:
                           "Ingrese un segundo nombre válido sin números ni caracteres especiales.",
                       },
@@ -230,6 +232,7 @@ function CreateForm() {
               <Form.Label>Fecha de Nacimiento</Form.Label>
               <Form.Control
                 type="date"
+                max={today}
                 isInvalid={!!errors.fecha_nacimiento}
                 {...register("fecha_nacimiento", {
                   required: "Por favor, ingrese su fecha de nacimiento.",

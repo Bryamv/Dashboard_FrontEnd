@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import moment from "moment";
 import { Form, Button, Container, Row, Col, Spinner } from "react-bootstrap";
 const EditForm = () => {
+  let today = new Date().toISOString().split("T")[0];
   const navigate = useNavigate();
   const { id } = useParams();
   const [person, setPerson] = useState(null);
@@ -69,7 +70,6 @@ const EditForm = () => {
 
     try {
       const response = await axios.post(
-        //cambiar el endPoit
         "http://localhost:3002/api/updatepeople",
         formData,
         {
@@ -260,6 +260,7 @@ const EditForm = () => {
                   <Form.Label>Fecha de Nacimiento</Form.Label>
                   <Form.Control
                     type="date"
+                    max={today}
                     isInvalid={!!errors.fecha_nacimiento}
                     {...register("fecha_nacimiento", {
                       required: "Este campo es obligatorio",
