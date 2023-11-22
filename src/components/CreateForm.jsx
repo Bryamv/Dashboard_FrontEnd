@@ -130,10 +130,11 @@ function CreateForm() {
                 type="text"
                 isInvalid={!!errors.numero_documento}
                 {...register("numero_documento", {
-                  required: "Este campo es obligatorio",
+                  required: "Por favor, ingrese el número de documento.",
                   pattern: {
                     value: /^[0-9]{1,10}$/,
-                    message: "Debe ser un número y no mayor de 10 caracteres",
+                    message:
+                      "Ingrese un número de documento válido (hasta 10 dígitos).",
                   },
                 })}
               />
@@ -151,14 +152,15 @@ function CreateForm() {
                     type="text"
                     isInvalid={!!errors.primer_nombre}
                     {...register("primer_nombre", {
-                      required: "Este campo es obligatorio",
+                      required: "Por favor, ingrese su primer nombre.",
                       maxLength: {
                         value: 30,
-                        message: "No debe ser mayor de 30 caracteres",
+                        message: "El nombre no debe exceder los 30 caracteres.",
                       },
                       pattern: {
-                        value: /^(?:[a-zA-ZáéíóúñÁÉÍÓÚÑ]+\s?){1,2}$/,
-                        message: "No debe ser un número",
+                        value: /^(?:[a-zA-ZáéíóúñÁÉÍÓÚÑ]+)$/,
+                        message:
+                          "Ingrese un nombre válido sin números ni caracteres especiales.",
                       },
                     })}
                   />
@@ -179,11 +181,13 @@ function CreateForm() {
                     {...register("segundo_nombre", {
                       maxLength: {
                         value: 30,
-                        message: "No debe ser mayor de 30 caracteres",
+                        message:
+                          "El segundo nombre no debe exceder los 30 caracteres.",
                       },
                       pattern: {
-                        value: /^[A-Za-z]+$/,
-                        message: "No debe ser un número",
+                        value: /^(?:[a-zA-ZáéíóúñÁÉÍÓÚÑ]+\s?){1,2}$/,
+                        message:
+                          "Ingrese un segundo nombre válido sin números ni caracteres especiales.",
                       },
                     })}
                   />
@@ -202,14 +206,16 @@ function CreateForm() {
                 type="text"
                 isInvalid={!!errors.apellidos}
                 {...register("apellidos", {
-                  required: "Este campo es obligatorio",
+                  required: "Por favor, ingrese sus apellidos.",
                   maxLength: {
                     value: 60,
-                    message: "No debe ser mayor de 60 caracteres",
+                    message:
+                      "Los apellidos no deben superar los 60 caracteres.",
                   },
                   pattern: {
-                    value: /^[A-Za-z\s]+$/,
-                    message: "No debe ser un número",
+                    value: /^(?:[a-zA-ZáéíóúñÁÉÍÓÚÑ\s]+\s?){1,}$/,
+                    message:
+                      "Ingrese apellidos válidos utilizando solo letras y espacios.",
                   },
                 })}
               />
@@ -226,7 +232,7 @@ function CreateForm() {
                 type="date"
                 isInvalid={!!errors.fecha_nacimiento}
                 {...register("fecha_nacimiento", {
-                  required: "Este campo es obligatorio",
+                  required: "Por favor, ingrese su fecha de nacimiento.",
                 })}
               />
               {errors.fecha_nacimiento && (
@@ -252,10 +258,10 @@ function CreateForm() {
                 type="email"
                 isInvalid={!!errors.correo_electronico}
                 {...register("correo_electronico", {
-                  required: "Este campo es obligatorio",
+                  required: "Por favor, ingrese su correo electrónico.",
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                    message: "Formato de correo electrónico inválido",
+                    message: "Ingrese un correo electrónico válido.",
                   },
                 })}
               />
@@ -272,11 +278,11 @@ function CreateForm() {
                 type="tel"
                 isInvalid={!!errors.celular}
                 {...register("celular", {
-                  required: "Este campo es obligatorio",
+                  required: "Por favor, ingrese su número de celular.",
                   pattern: {
                     value: /^[0-9]{10}$/,
                     message:
-                      "Debe ser un número y tener exactamente 10 caracteres",
+                      "Ingrese un número de celular válido de 10 dígitos.",
                   },
                 })}
               />
