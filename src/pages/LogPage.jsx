@@ -5,6 +5,8 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { Spinner, Pagination } from "react-bootstrap";
 import { Form, Alert } from "react-bootstrap";
 import getLog from "../api/getLog.js";
+import moment from "moment";
+
 const LogPage = () => {
   const [logs, setLogs] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,14 +43,17 @@ const LogPage = () => {
   }, [reload]);
 
   // Agrega un nuevo estado para el filtro de tipo_documento
-
-  // Filtrar todos los elementos si el filtro no está vacío
   const elementsToShow = useMemo(() => {
-    if (filter !== "" || tipoFilter !== "" || fechaFilter !== "") {
+    if (
+      logs &&
+      (filter !== "" || tipoFilter !== "Seleccionar" || fechaFilter !== "")
+    ) {
       return logs.filter(
         (log) =>
           log.numero_documento.includes(filter) &&
-          log.tipo_documento.includes(tipoFilter)
+          (tipoFilter === "Seleccionar" ||
+            log.tipo_documento.includes(tipoFilter)) &&
+          (fechaFilter === "" || (log.fecha && log.fecha === fechaFilter))
       );
     } else {
       return logs;
@@ -194,8 +199,13 @@ const LogPage = () => {
             <Form.Control
               type="date"
               onChange={(e) => {
-                console.log(e.target.value);
-                setfechaFilter(e.target.value);
+                const date = e.target.value;
+                if (date === "") {
+                  // Aquí es donde manejas el caso cuando la fecha se borra
+                  setfechaFilter(""); // Asume que setFechaFilter actualiza tu estado de fechaFilter
+                } else {
+                  setfechaFilter(moment(date).format("DD-MMM-YYYY"));
+                }
               }}
             />
           </Form.Group>

@@ -23,6 +23,7 @@ function CreateForm() {
     setLoading(true);
     moment.updateLocale("es"); //no funciona actualmente
     data.fecha_nacimiento = moment(data.fecha_nacimiento).format("DD-MMM-YYYY");
+
     console.log(data.fecha_nacimiento);
     const formData = new FormData();
 

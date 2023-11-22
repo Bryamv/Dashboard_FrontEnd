@@ -26,7 +26,7 @@ const EditForm = () => {
           edit: true,
         },
       });
-      console.log(response.data.usuario.foto);
+
       setPerson(response.data.usuario);
       setImage(`data:image/jpeg;base64,${response.data.usuario.foto}`);
       setValue("foto", `${response.data.usuario.foto}`);
