@@ -3,9 +3,23 @@ import PropTypes from "prop-types";
 
 import "./table.css";
 const LogTable = ({ data }) => {
+  const getRowClass = (tipo) => {
+    switch (tipo) {
+      case "CREATE":
+        return "table-success";
+      case "UPDATE":
+        return "table-info";
+      case "DELETE":
+        return "table-danger";
+      case "READ":
+        return "table-warning"; // He escogido el color amarillo para 'READ'
+      default:
+        return "";
+    }
+  };
   console.log(data);
   return (
-    <Table striped>
+    <Table>
       <thead>
         <tr>
           <th>Tipo De Transaccion</th>
@@ -17,7 +31,7 @@ const LogTable = ({ data }) => {
       </thead>
       <tbody>
         {data.map((log) => (
-          <tr key={log._id}>
+          <tr key={log._id} className={getRowClass(log.tipo)}>
             <td>{log.tipo}</td>
             <td>{log.tipo_documento}</td>
             <td>{log.numero_documento}</td>

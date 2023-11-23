@@ -18,7 +18,7 @@ const LogPage = () => {
   const [tipoFilter, setTipoFilter] = useState("");
   const [fechaFilter, setfechaFilter] = useState("");
 
-  const elementosPorPagina = 5;
+  const elementosPorPagina = 10;
 
   //codigo para filtrar los datos por documento
 
