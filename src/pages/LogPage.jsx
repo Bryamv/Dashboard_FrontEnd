@@ -217,7 +217,7 @@ const LogPage = () => {
 
         <Col className="col-12 mx-auto">
           <LogTable data={currentElements} />
-          {console.log(currentElements)}
+
           {currentElements.length === 0 && (
             <Alert variant="info">No se encontraron resultados</Alert>
           )}

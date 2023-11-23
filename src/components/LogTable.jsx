@@ -1,25 +1,25 @@
-import Table from "react-bootstrap/Table";
+import { Table, Badge } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 import "./table.css";
 const LogTable = ({ data }) => {
-  const getRowClass = (tipo) => {
-    switch (tipo) {
-      case "CREATE":
-        return "table-success";
-      case "UPDATE":
-        return "table-info";
-      case "DELETE":
-        return "table-danger";
-      case "READ":
-        return "table-warning"; // He escogido el color amarillo para 'READ'
+  const getBadgeVariant = (tipo) => {
+    switch (tipo.toLowerCase()) {
+      case "create":
+        return "success";
+      case "update":
+        return "info";
+      case "delete":
+        return "danger";
+      case "read":
+        return "primary";
       default:
-        return "";
+        return "secondary";
     }
   };
-  console.log(data);
+
   return (
-    <Table>
+    <Table striped>
       <thead>
         <tr>
           <th>Tipo De Transaccion</th>
@@ -31,8 +31,11 @@ const LogTable = ({ data }) => {
       </thead>
       <tbody>
         {data.map((log) => (
-          <tr key={log._id} className={getRowClass(log.tipo)}>
-            <td>{log.tipo}</td>
+          <tr key={log._id}>
+            <td>
+              <Badge bg={getBadgeVariant(log.tipo)}>{log.tipo}</Badge>
+            </td>
+
             <td>{log.tipo_documento}</td>
             <td>{log.numero_documento}</td>
             <td>{log.fecha}</td>
